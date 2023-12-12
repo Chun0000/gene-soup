@@ -1,4 +1,12 @@
 import eel
+import lib.search as search
 
-eel.init('frontend')
-eel.start('index.html', size=(600, 400))
+
+@eel.expose
+def get_variant(gene_name, code_change, protein_change):
+    result = search.get_all_variants(gene_name, code_change, protein_change)
+    return result.to_json(orient='records')
+
+
+eel.init('web')
+eel.start('main.html', size=(1000, 1000), port=8000)
