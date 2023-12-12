@@ -1,5 +1,5 @@
 import eel
-import lib.search as search
+import utils.search as search
 
 
 @eel.expose
