@@ -19,6 +19,17 @@ body{
     text-align: center;
 }
 
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    gap: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 15px;
+}
 .search-box{
     padding: 20px;
     display: flex;
@@ -60,35 +71,10 @@ button{
     width: 100px;
 }
 
-.result_header{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    text-align: center;
-    padding: 10px;
-    font-weight: 700;
-}
-
-.result_row{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    text-align: center;
-    padding: 10px;
-    border: 0.35px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 5px;
-}
-
-.result_row:hover{
-   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;;
-   cursor: pointer;
-}
-
-.addi_info{
-    display: none;
-    font-size: 0.8rem;
-    padding: 10px;
-}
-
 b{
     font-weight: 700;
+}
+
+.database-header{
+    margin-bottom: 20px;
 }
