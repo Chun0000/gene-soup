@@ -3,6 +3,7 @@
 $(document).ready(function () {
   $("#result").hide();
   $("#submit-btn").click(checkMode);
+
   function checkMode(event) {
     event.preventDefault(); // Prevent page refresh
     $("#result").empty();
@@ -24,33 +25,18 @@ $(document).ready(function () {
   }
 
   async function variantMode(input) {
-    await eel.search_by_variant(input)(returnClinVarResult);
-  }
-
-  function returnClinVarResult(variant) {
-    $("#result").show();
-    let result = $("#result");
-    variant = JSON.parse(variant)[0];
-    if (variant.length === 0) {
-      $("#result").hide();
+    data = await eel.search_by_variant(input)();
+    if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0) {
       alert("No variants found.");
+    } else if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length !== 0) {
+      returnEmptyResult("ClinVar");
+      returnResult(data[1], "DVD");
+    } else if (Object.keys(data[0]).length !== 0 && Object.keys(data[1]).length === 0) {
+      returnResult(data[0], "ClinVar");
+      returnEmptyResult("DVD");
     } else {
-      let Info = $("<div></div>").addClass("box");
-      Info.html(`
-        <h3 class="database-header">ClinVar</h3>
-        <div><b>Official Gene Symbol:</b> &#9 ${variant["GeneSymbol"]}</div>
-        <div><b>Chromosome:</b> &#9 ${variant["Chromosome"]}</div>
-        <div><b>Position (VCF):</b> &#9 ${variant["PositionVCF"]}</div>
-        <div><b>Reference Allele (VCF):</b> &#9 ${variant["ReferenceAlleleVCF"]}</div>
-        <div><b>Alternate Allele (VCF):</b> &#9 ${variant["AlternateAlleleVCF"]}</div>
-        <div><b>Clinical Significance:</b> &#9 ${variant["ClinicalSignificance"]}</div>
-        <div><b>Name:</b> &#9 ${variant["Name"]}</div>
-        <div><b>RS# (dbSNP):</b> &#9 ${variant["RS# (dbSNP)"]}</div>
-        <div><b>Phenotype List:</b> &#9 ${variant["PhenotypeList"]}</div>
-      `);
-
-      result.append(Info);
-      enableButton();
+      returnResult(data[0], "ClinVar");
+      returnResult(data[1], "DVD");
     }
   }
 
@@ -60,5 +46,38 @@ $(document).ready(function () {
 
   function enableButton() {
     $("#submit-btn").prop("disabled", false);
+  }
+
+  function returnResult(variant, database) {
+    $("#result").show();
+    let result = $("#result");
+    if (variant.length === 0) {
+      $("#result").hide();
+      alert("No variants found.");
+    } else {
+      let Info = $("<div></div>").addClass("box");
+      const variantInfo = Object.entries(variant).map(([key, value]) => {
+        return `<div><b>${key}:</b> &#9 ${value}</div>`;
+      });
+      Info.html(`
+        <h3 class="database-header">${database}</h3>
+        ${variantInfo.join("")}
+      `);
+
+      result.append(Info);
+      enableButton();
+    }
+  }
+
+  function returnEmptyResult(database) {
+    $("#result").show();
+    let result = $("#result");
+    let Info = $("<div></div>").addClass("box");
+    Info.html(`
+      <h3 class="database-header">${database}</h3>
+      <div>No variants found.</div>
+    `);
+    result.append(Info);
+    enableButton();
   }
 });
