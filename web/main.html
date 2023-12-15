@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>eel</title>
-    <meta charset="utf-8" />
+    <title>Variant Search Engine</title>
     <link rel="stylesheet" href="./index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;700&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- eel.js , this is necessary  -->
     <script type="text/javascript" src="eel.js"></script>
@@ -24,21 +24,20 @@
       </div>
       <div class="search-box">
         <form class="form-container">
-          <label for="name"> Gene Symbol: <input type="text" id="gene_name" name="gene_name" /> </label>
-          <label for="name"> Code Change: <input type="text" id="code_change" name="code_change" /> </label>
-          <label for="name"> Protein Change: <input type="text" id="protein_change" name="protein_change" /> </label>
+          <div class="mode-select">
+            <label for="search-mode">Search Mode:</label>
+            <input type="radio" id="gene-mode" name="search-mode" checked />
+            <label for="gene-mode">Gene Mode</label>
+            <input type="radio" id="variant-mode" name="search-mode" />
+            <label for="variant-mode">Variant Mode</label>
+          </div>
+          <label for="user">Search:</label>
+          <input type="text" id="user" name="user" />
+          <button method="submit" id="submit-btn">Search</button>
         </form>
-        <button type="submit" id="submit-bnt">Search</button>
       </div>
     </div>
-    <div id="result">
-      <div class="result_header">
-        <div>Official Gene Symbol</div>
-        <div>Position</div>
-        <div>Code Change</div>
-        <div>Protein Change</div>
-      </div>
-    </div>
+    <div id="result"></div>
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="

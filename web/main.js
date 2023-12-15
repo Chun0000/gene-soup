@@ -2,53 +2,63 @@
 
 $(document).ready(function () {
   $("#result").hide();
-  $("#submit-bnt").click(getVariant);
-  async function getVariant() {
-    $(".result_row").remove();
-    let gene_name = $("#gene_name").val();
-    let code_change = $("#code_change").val();
-    let protein_change = $("#protein_change").val();
-
-    if (gene_name === "" && code_change === "" && protein_change === "") {
-      alert("Please at least fill one field.");
-      return;
+  $("#submit-btn").click(checkMode);
+  function checkMode(event) {
+    event.preventDefault(); // Prevent page refresh
+    $("#result").empty();
+    let input = $("#user").val();
+    let searchMode = $("input[name='search-mode']:checked").attr("id");
+    if (input === "") {
+      alert("Input is empty.");
+    } else if (searchMode === "gene-mode") {
+      disableButton();
+      geneMode(input);
+    } else if (searchMode === "variant-mode") {
+      disableButton();
+      variantMode(input);
     }
-
-    await eel.get_variant(gene_name, code_change, protein_change)(returnResult);
   }
 
-  function returnResult(variants) {
+  async function geneMode(input) {
+    await eel.search_by_gene(input)(returnClinVarResult);
+  }
+
+  async function variantMode(input) {
+    await eel.search_by_variant(input)(returnClinVarResult);
+  }
+
+  function returnClinVarResult(variant) {
     $("#result").show();
     let result = $("#result");
-    variants = JSON.parse(variants);
-    if (variants.length === 0) {
+    variant = JSON.parse(variant)[0];
+    if (variant.length === 0) {
       $("#result").hide();
       alert("No variants found.");
     } else {
-      variants.forEach((variant) => {
-        let Info = $("<div></div>").addClass("result_row");
-        Info.html(`
-          <div>${variant["Gene Symbol"]}</div>
-          <div>${variant.Position}</div>
-          <div>${variant["Code change"]}</div>
-          <div>${variant["Protein change"]}</div>
-        `);
-        result.append(Info);
-        delete variant["Gene Symbol"];
-        delete variant.Position;
-        delete variant["Code change"];
-        delete variant["Protein change"];
-        let AddiInfo = $("<div></div>").addClass("addi_info");
-        AddiInfo.html(`
-          ${Object.keys(variant)
-            .map((key) => `<div><b>${key}</b> &#9${variant[key]}</div>`)
-            .join("")}
-        `);
-        result.append(AddiInfo);
-      });
-      $(".result_row").click(function () {
-        $(this).next(".addi_info").slideToggle("slow");
-      });
+      let Info = $("<div></div>").addClass("box");
+      Info.html(`
+        <h3 class="database-header">ClinVar</h3>
+        <div><b>Official Gene Symbol:</b> &#9 ${variant["GeneSymbol"]}</div>
+        <div><b>Chromosome:</b> &#9 ${variant["Chromosome"]}</div>
+        <div><b>Position (VCF):</b> &#9 ${variant["PositionVCF"]}</div>
+        <div><b>Reference Allele (VCF):</b> &#9 ${variant["ReferenceAlleleVCF"]}</div>
+        <div><b>Alternate Allele (VCF):</b> &#9 ${variant["AlternateAlleleVCF"]}</div>
+        <div><b>Clinical Significance:</b> &#9 ${variant["ClinicalSignificance"]}</div>
+        <div><b>Name:</b> &#9 ${variant["Name"]}</div>
+        <div><b>RS# (dbSNP):</b> &#9 ${variant["RS# (dbSNP)"]}</div>
+        <div><b>Phenotype List:</b> &#9 ${variant["PhenotypeList"]}</div>
+      `);
+
+      result.append(Info);
+      enableButton();
     }
+  }
+
+  function disableButton() {
+    $("#submit-btn").prop("disabled", true);
+  }
+
+  function enableButton() {
+    $("#submit-btn").prop("disabled", false);
   }
 });
