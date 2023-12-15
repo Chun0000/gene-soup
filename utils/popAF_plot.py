@@ -24,7 +24,6 @@ def plot(sorted_df, search_str):
     data = sorted_df.iloc[1].astype(float)
     labels = sorted_df.iloc[0]
     colors = ['#9A031E', '#E36414', '#FFC436', '#739072', '#00A9FF', '#E95793', '#7071E8', '#C683D7']
-    fig, ax = plt.subplots()
 
     plt.style.use('ggplot')
 
@@ -33,7 +32,9 @@ def plot(sorted_df, search_str):
     plt.xlabel('Population', fontdict={'fontsize': 12, 'fontweight': 'bold', 'fontname': 'Arial'})
     plt.ylabel('Allele frequency (%)', fontdict={'fontsize': 12, 'fontweight': 'bold', 'fontname': 'Arial'})
     plt.title(f'{search_str}', fontdict={'fontsize': 16, 'fontweight': 'bold', 'fontname': 'Arial'})
-    
+
+    for label, d in zip(labels, data):
+        plt.text(label, d, f'{d:.2f}', ha='center', va='bottom', fontsize=10, color='black')
     plt.show()
 
 def main():
