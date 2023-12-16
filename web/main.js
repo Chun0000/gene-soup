@@ -12,29 +12,35 @@ $(document).ready(function () {
     if (input === "") {
       alert("Input is empty.");
     } else if (searchMode === "gene-mode") {
-      disableButton();
-      geneMode(input);
+      if (input.split("-").length > 1) {
+        alert("Please enter a valid gene name.");
+      } else {
+        disableButton();
+        geneMode(input);
+      }
     } else if (searchMode === "variant-mode") {
-      disableButton();
-      variantMode(input);
+      if (input.split("-").length == 1) {
+        alert("Please enter a valid variant format.");
+      } else {
+        disableButton();
+        variantMode(input);
+      }
     }
   }
 
   async function geneMode(input) {
-    await eel.search_by_gene(input)(returnClinVarResult);
+    data = await eel.search_by_gene(input)();
+    returnResult(data[1], "RefGene - Overview");
+    returnResult(data[0], "RefGene - Transcript");
   }
 
   async function variantMode(input) {
     data = await eel.search_by_variant(input)();
-    if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0) {
+    if ((Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0, Object.keys(data[2]).length === 0)) {
       alert("No variants found.");
-    } else if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length !== 0) {
-      returnEmptyResult("ClinVar");
-      returnResult(data[1], "DVD");
-    } else if (Object.keys(data[0]).length !== 0 && Object.keys(data[1]).length === 0) {
-      returnResult(data[0], "ClinVar");
-      returnEmptyResult("DVD");
     } else {
+      returnResult(data[3], "RefGene - Overview");
+      returnResult(data[2], "RefGene - Transcript");
       returnResult(data[0], "ClinVar");
       returnResult(data[1], "DVD");
     }
@@ -51,11 +57,38 @@ $(document).ready(function () {
   function returnResult(variant, database) {
     $("#result").show();
     let result = $("#result");
-    if (variant.length === 0) {
-      $("#result").hide();
-      alert("No variants found.");
+    if (Object.keys(variant).length === 0) {
+      returnEmptyResult(database);
+    } else if (database === "RefGene - Transcript") {
+      let Info = $("<div></div>").addClass("box");
+      const header = Object.keys(variant[0]).map((key) => {
+        return `<th>${key}</th>`;
+      });
+      const variantInfo = variant.map((data) => {
+        return `<tr>${Object.values(data)
+          .map((value) => {
+            return `<td>${value}</td>`;
+          })
+          .join("")}</tr>`;
+      });
+      Info.append(`
+          <h3 class="database-header">${database}</h3>
+          <table>
+          <thead>
+            <tr>
+              ${header.join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${variantInfo.join("")}
+          </table>
+        `);
+      result.append(Info);
     } else {
       let Info = $("<div></div>").addClass("box");
+      if (database === "RefGene - Overview") {
+        variant = variant[0];
+      }
       const variantInfo = Object.entries(variant).map(([key, value]) => {
         return `<div><b>${key}:</b> &#9 ${value}</div>`;
       });
@@ -63,10 +96,9 @@ $(document).ready(function () {
         <h3 class="database-header">${database}</h3>
         ${variantInfo.join("")}
       `);
-
       result.append(Info);
-      enableButton();
     }
+    enableButton();
   }
 
   function returnEmptyResult(database) {

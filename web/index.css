@@ -78,3 +78,12 @@ b{
 .database-header{
     margin-bottom: 20px;
 }
+
+th{
+    padding-bottom: 15px;
+}
+
+td{
+    text-align: center;
+    padding: 5px
+}
