@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
   $("#result").hide();
+  $("#figure").hide();
   $("#submit-btn").click(checkMode);
 
   function checkMode(event) {
@@ -36,14 +37,30 @@ $(document).ready(function () {
 
   async function variantMode(input) {
     data = await eel.search_by_variant(input)();
-    if ((Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0, Object.keys(data[2]).length === 0)) {
+    console.log(data[4]);
+    if (
+      Object.keys(data[0]).length === 0 &&
+      Object.keys(data[1]).length === 0 &&
+      Object.keys(data[2]).length === 0 &&
+      data[4] !== true
+    ) {
       alert("No variants found.");
     } else {
+      showFigure(data[4]);
       returnResult(data[3], "RefGene - Overview");
       returnResult(data[2], "RefGene - Transcript");
       returnResult(data[0], "ClinVar");
       returnResult(data[1], "DVD");
     }
+  }
+
+  function showFigure(data) {
+    if (data === true) {
+      $("#figure").show();
+    } else {
+      $("#figure").hide();
+    }
+    enableButton();
   }
 
   function disableButton() {
