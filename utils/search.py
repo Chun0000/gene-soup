@@ -10,9 +10,9 @@ def get_clinvar_variant(var):
     ref = var.split('-')[2]
     alt = var.split('-')[3]
     result = ClinVar[ClinVar['Chromosome'] == chr]
-    result = result[result['PositionVCF'] == pos]
-    result = result[result['ReferenceAlleleVCF'] == ref]
-    result = result[result['AlternateAlleleVCF'] == alt]
+    result = result[result['Position'] == pos]
+    result = result[result['Reference Allele'] == ref]
+    result = result[result['Alternate Allele'] == alt]
     if result.empty:
         return {}
     else:
@@ -22,9 +22,9 @@ def get_clinvar_variant(var):
 def get_gene_symbol(var):
     chr = var.split('-')[0]
     pos = int(var.split('-')[1])
-    result = ClinVar[ClinVar['PositionVCF'] == pos]
+    result = ClinVar[ClinVar['Position'] == pos]
     result = result[result['Chromosome'] == chr]
-    gene_list = result['GeneSymbol'].head(1).tolist()
+    gene_list = result['Gene Symbol'].head(1).tolist()
     if result.empty:
         return []
     else:
@@ -35,9 +35,9 @@ def get_dvd_variant(var):
     pos = int(var.split('-')[1])
     ref = var.split('-')[2]
     alt = var.split('-')[3]
-    result = DVD[DVD['POS'] == pos]
-    result = result[result['REF'] == ref]
-    result = result[result['ALT'] == alt]
+    result = DVD[DVD['Position'] == pos]
+    result = result[result['Reference Allele'] == ref]
+    result = result[result['Alternate Allele'] == alt]
     if result.empty:
         return {}
     else:
