@@ -13,7 +13,7 @@ $(document).ready(function () {
     if (input === "") {
       alert("Input is empty.");
     } else if (searchMode === "gene-mode") {
-      if (input.split("-").length > 1) {
+      if (input.split("-").length > 3) {
         alert("Please enter a valid gene name.");
       } else {
         disableButton();
