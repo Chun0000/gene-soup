@@ -24,7 +24,7 @@ def get_gene_symbol(var):
     pos = int(var.split('-')[1])
     result = ClinVar[ClinVar['Position'] == pos]
     result = result[result['Chromosome'] == chr]
-    gene_list = result['Gene Symbol'].head(1).tolist()
+    gene_name = result['Gene Symbol'].head(1).to_list()
     if result.empty:
         return []
     else:

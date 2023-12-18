@@ -1,5 +1,6 @@
 import pandas as pd
 from utils.search import get_gene_symbol
+import utils.return_offical_symbol as offi
 
 refgenes = pd.read_csv(
     './database/refGene_transcript_transLen_final.txt', sep='\t')
@@ -7,6 +8,7 @@ refgenes = pd.read_csv(
 
 def return_refgene(var):
     gene_list = get_gene_symbol(var)
+    print(gene_list)
     if gene_list == []:
         result = ({}, {})
         return result
@@ -16,6 +18,7 @@ def return_refgene(var):
 
 
 def get_result(gene_list):
+    gene_list = [offi.return_offical_symbol(i) for i in gene_list]
     refgenes['gene_name'] = refgenes['gene_name'].astype('str')
     refgenes['start'] = refgenes['start'].astype('int')
     refgenes['end'] = refgenes['end'].astype('int')
