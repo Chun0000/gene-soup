@@ -38,12 +38,12 @@ def plot(sorted_df, search_str):
 
     for label, d in zip(labels, data):
         plt.text(label, d, f'{d:.2f}', ha='center', va='bottom', fontsize=10, color='black')
-    plt.show()
+    plt.savefig('./web/variant.png', dpi=300, bbox_inches='tight')
 
-def main():
+def popAF_plot():
     search_str = sys.argv[1] 
-    tsvfile_path = '/Users/anthony/Desktop/variant-search-engine/database/gnomAD_TWB/hg19_gnomad211_part_head.tsv' ## Change this path to your local path
+    tsvfile_path = './database/gnomAD_TWB/hg19_gnomad211_part_head.tsv' ## Change this path to your local path
     sorted_df = tsv_process(tsvfile_path, search_str)
     plot(sorted_df, search_str)
 
-main()
+popAF_plot()
