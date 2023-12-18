@@ -7,6 +7,9 @@ import numpy as np
 def tsv_process(tsvfile_path, search_str):
 
     df = pd.read_csv(tsvfile_path, sep='\t')
+    if search_str not in df['#Chr_Pos_Ref_Alt'].values:
+        print(f'{search_str} is not in the database.')
+        sys.exit(1)
 
     filtered_df = df[df['#Chr_Pos_Ref_Alt'] == search_str].copy()
     # Convert the columns to numeric and fill the mark "." with 0
@@ -39,7 +42,7 @@ def plot(sorted_df, search_str):
 
 def main():
     search_str = sys.argv[1] 
-    tsvfile_path = '/Users/anthony/Desktop/hg19_gnomad211_part_head.tsv' ## Change this path to your local path
+    tsvfile_path = '/Users/anthony/Desktop/variant-search-engine/database/gnomAD_TWB/hg19_gnomad211_part_head.tsv' ## Change this path to your local path
     sorted_df = tsv_process(tsvfile_path, search_str)
     plot(sorted_df, search_str)
 
