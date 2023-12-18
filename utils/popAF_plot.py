@@ -46,4 +46,5 @@ def popAF_plot():
     sorted_df = tsv_process(tsvfile_path, search_str)
     plot(sorted_df, search_str)
 
+
 popAF_plot()
