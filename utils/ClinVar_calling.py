@@ -1,5 +1,5 @@
 import pandas as pd 
-file_path="c:/Users/user/Desktop/web/final_h_clinvar_single_37.txt"
+file_path="/Volumes/ANTHONY/database/final_h_clinvar_single_37.txt"
 #genename=input ("please inut the target gene:", )
 genename='TP53'
 #genename= genename.upper
