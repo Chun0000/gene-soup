@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Variant Search Engine</title>
+    <title>基湯 GENE SOUP</title>
     <link rel="stylesheet" href="./index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,7 +13,8 @@
   </head>
   <body>
     <div class="homepage">
-      <h1 class="title">Variant Search Engine</h1>
+      <h1 class="title">基湯 GENE SOUP</h1>
+      <h2 class="subtitle">Multi-Data based Gene Exploration Engine</h2>
       <div class="about-box">
         <h3>About this engine</h3>
         <ul>
@@ -22,6 +23,13 @@
           <li>Click on a row to view more details about the variant</li>
         </ul>
       </div>
+      <div class="about-box">
+        <h3>Input Formats</h3>
+        <ul>
+          <li>Gene: HUMAN GENE SYMBOL (Capital letter is needed) ➤ <b>GJB2</b></li>
+          <li>Variants: Chrom-Pos-Ref-Alt ➤ <b>13-20763612-C-T</b></li>
+        </ul>
+      </div>      
       <div class="search-box">
         <form class="form-container">
           <div class="mode-select">
@@ -33,7 +41,11 @@
           </div>
           <label for="user">Search:</label>
           <input type="text" id="user" name="user" />
-          <button method="submit" id="submit-btn">Search</button>
+          <div class="button-container">
+            <button method="submit" id="submit-btn">Submit</button>
+            <button type="button" id="abort-btn">Cancel</button>
+          </div>
+          <img class="logo-image" src="./Image/GeneSoup.png" height="250px" width="250px" />
         </form>
       </div>
     </div>

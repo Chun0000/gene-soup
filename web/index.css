@@ -17,8 +17,16 @@ body{
 
 .homepage h1{
     text-align: center;
+    margin-bottom: -50px;
 }
-
+.homepage h2{
+    text-align: center;
+}   
+.logo-image{
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
 .box{
     display: flex;
     flex-direction: column;
@@ -50,6 +58,7 @@ body{
     border: 1px solid #ddd;
     border-radius: 20px;
     padding: 30px;
+    margin-bottom: -50px;
 }
 
 .form-container{
@@ -87,3 +96,29 @@ td{
     text-align: center;
     padding: 5px
 }
+#submit-btn {
+    background-color: #4CAF50; /* 綠色 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  #abort-btn {
+    background-color: #f44336; /* 紅色 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
