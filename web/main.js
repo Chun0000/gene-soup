@@ -31,6 +31,7 @@ $(document).ready(function () {
 
   async function geneMode(input) {
     data = await eel.search_by_gene(input)();
+    console.log(data);
     returnResult(data[1], "RefGene - Overview");
     returnResult(data[0], "RefGene - Transcript");
   }

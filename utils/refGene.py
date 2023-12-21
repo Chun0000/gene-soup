@@ -8,7 +8,6 @@ refgenes = pd.read_csv(
 
 def return_refgene(var):
     gene_list = get_gene_symbol(var)
-    print(gene_list)
     if gene_list == []:
         result = ({}, {})
         return result
