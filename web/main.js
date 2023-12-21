@@ -34,6 +34,7 @@ $(document).ready(function () {
     console.log(data);
     returnResult(data[1], "RefGene - Overview");
     returnResult(data[0], "RefGene - Transcript");
+    returnResult(data[2], "DVD - Overview");
   }
 
   async function variantMode(input) {
@@ -78,6 +79,31 @@ $(document).ready(function () {
     if (Object.keys(variant).length === 0) {
       returnEmptyResult(database);
     } else if (database === "RefGene - Transcript") {
+      let Info = $("<div></div>").addClass("box");
+      const header = Object.keys(variant[0]).map((key) => {
+        return `<th>${key}</th>`;
+      });
+      const variantInfo = variant.map((data) => {
+        return `<tr>${Object.values(data)
+          .map((value) => {
+            return `<td>${value}</td>`;
+          })
+          .join("")}</tr>`;
+      });
+      Info.append(`
+          <h3 class="database-header">${database}</h3>
+          <table>
+          <thead>
+            <tr>
+              ${header.join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${variantInfo.join("")}
+          </table>
+        `);
+      result.append(Info);
+    } else if ((database === "DVD - Overview") | (database === "Clinvar - Overview")) {
       let Info = $("<div></div>").addClass("box");
       const header = Object.keys(variant[0]).map((key) => {
         return `<th>${key}</th>`;
