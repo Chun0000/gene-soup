@@ -36,7 +36,7 @@ h1, h2{
     margin: 15px;
 }
 
-.about{
+.small-font{
     font-size: 0.8rem;
 }
 
@@ -75,28 +75,11 @@ td{
     text-align: center;
     padding: 5px
 }
+
 #submit-btn {
-    background-color: #4CAF50; /* 綠色 */
-    color: white;
     border: none;
     padding: 10px 20px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  #abort-btn {
-    background-color: #f44336; /* 紅色 */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
