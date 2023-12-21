@@ -31,15 +31,18 @@ $(document).ready(function () {
 
   async function geneMode(input) {
     data = await eel.search_by_gene(input)();
-    console.log(data);
-    returnResult(data[1], "RefGene - Overview");
-    returnResult(data[0], "RefGene - Transcript");
-    returnResult(data[2], "DVD - Overview");
+    if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0 && Object.keys(data[2]).length === 0) {
+      alert("No variants found.");
+      enableButton();
+    } else {
+      returnResult(data[1], "RefGene - Overview");
+      returnResult(data[0], "RefGene - Transcript");
+      returnResult(data[2], "DVD - Overview");
+    }
   }
 
   async function variantMode(input) {
     data = await eel.search_by_variant(input)();
-    console.log(data[4]);
     if (
       Object.keys(data[0]).length === 0 &&
       Object.keys(data[1]).length === 0 &&
@@ -47,6 +50,7 @@ $(document).ready(function () {
       data[4] !== true
     ) {
       alert("No variants found.");
+      enableButton();
     } else {
       showFigure(data[4]);
       returnResult(data[3], "RefGene - Overview");
