@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import os
 
 
 def tsv_process(tsvfile_path, search_str):
@@ -22,11 +23,11 @@ def tsv_process(tsvfile_path, search_str):
 
     sorted_df = filtered_df.transpose().reset_index(inplace=False).iloc[1:].sort_values(
         by=[0], key=lambda x: x.astype(float), ascending=False).reset_index(drop=True).transpose()
-    sorted_df = sorted_df.reset_index(drop=True)
+    #sorted_df = sorted_df.reset_index(drop=True)
     return sorted_df
 
 
-def plot(sorted_df, search_str):
+def plot(sorted_df, var):
     data = sorted_df.iloc[1].astype(float)
     labels = sorted_df.iloc[0]
     colors = ['#9A031E', '#E36414', '#FFC436', '#739072',
@@ -40,19 +41,24 @@ def plot(sorted_df, search_str):
                'fontsize': 12, 'fontweight': 'bold', 'fontname': 'Arial'})
     plt.ylabel('Allele frequency (%)', fontdict={
                'fontsize': 12, 'fontweight': 'bold', 'fontname': 'Arial'})
-    plt.title(f'{search_str}', fontdict={'fontsize': 16,
+    plt.title(f'{var}', fontdict={'fontsize': 16,
               'fontweight': 'bold', 'fontname': 'Arial'})
 
     for label, d in zip(labels, data):
         plt.text(label, d, f'{d:.2f}', ha='center',
                  va='bottom', fontsize=10, color='black')
     plt.savefig('./web/Image/popAF.png', dpi=300, bbox_inches='tight')
+    plt.close()
 
 
 def popAF_plot(var):
     search_str = var.replace('-', '_')
+    filename = var.split('-')[0]
     # Change this path to your local path
-    tsvfile_path = './database/gnomAD_TWB/hg19_gnomad211_part_head.tsv'
+    tsvfile_path = f'/Volumes/ANTHONY/database/gnomAD_TWB_merge_chrom{filename}.tsv'
+    if not os.path.exists(tsvfile_path):
+        print(f'{tsvfile_path} is not exist.')
+        return False
     sorted_df = tsv_process(tsvfile_path, search_str)
     if sorted_df is False:
         return False

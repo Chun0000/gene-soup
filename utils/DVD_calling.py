@@ -1,74 +1,47 @@
-import pandas as pd 
-file_path="/Users/lijinhong/Desktop/pyProgram/DVD_final.txt"
-#genename=input ("please inut the target gene:", )
-genename='ADGRV1'
-#genename= genename.upper
-def search_gene_data_pandas(file_path, target_gene):
-    try:
-        # 讀取資料到 DataFrame
-        df = pd.read_csv(file_path, sep='\t', encoding='utf-8')  # 假設資料以 tab ('\t') 分隔
-
-        # 選取符合基因名稱的資料
-        result = df.loc[df['GENE'] == target_gene, ['GENE', 'FINAL_PATHOGENICITY']]
-        # 檢查是否有找到符合條件的資料
-        if not result.empty:
-            # 按照 ClinicalSignificance 欄位進行排序
-            result = result.sort_values(by='FINAL_PATHOGENICITY')
-            # 將結果寫入新檔案，使用原始索引以保留與原始資料相同的格式
-            result.to_csv('output.txt', header=True, encoding='utf-8', sep='\t')
-            print(f'已成功找到基因 {target_gene} 的相關資料，並寫入 output.txt 檔案中。')
-        else:
-            print(f'找`不到基因 {target_gene} 的相關資料。')
-    except FileNotFoundError:
-        print(f'找不到指定的檔案：{file_path}')
-    except Exception as e:
-        print(f'發生錯誤：{e}')
-
-# 使用範例
-search_gene_data_pandas(file_path, genename)
-
 import pandas as pd
-
-def calculate_percentage(input_file, output_file):
-    try:
-        # 讀取輸入檔案到 DataFrame
-        df = pd.read_csv(input_file, sep='\t', encoding='utf-8')  # 假設資料以 tab ('\t') 分隔
-
-        # 檢查是否有 FINAL_PATHOGENICITY 欄位
-        if 'FINAL_PATHOGENICITY' not in df.columns:
-            print('找不到 FINAL_PATHOGENICITY 欄位。')
-            return
-
-        # 計算每個內容的次數
-        counts = df['FINAL_PATHOGENICITY'].value_counts()
-
-          # 對 FINAL_PATHOGENICITY 欄位進行排序
-        counts = counts.sort_index()
-
-        # 計算比例
-        percentages = counts / counts.sum() * 100  # 將比例轉換成百分比形式
-
-        # 將比例四捨五入到小數點後兩位
-        percentages = percentages.round(2)
-
-        # 在 result DataFrame 中加入 Genesymbol 欄位
-        result = pd.DataFrame({'GENE': [df['GENE'].iloc[0]] * len(counts), 'FINAL_PATHOGENICITY': counts.index, 'Number': counts, 'Percentages': percentages})
-
-        # 將結果橫向表示，並加入%符號
-        result['Percentages'] = result['Percentages'].astype(str) + '%'
-
-        # 調整欄位順序
-        result = result[['GENE', 'FINAL_PATHOGENICITY', 'Number', 'Percentages']]
-
-        # 寫入新檔案，直接覆蓋舊檔案
-        result.to_csv(output_file, header=True, sep='\t', mode='w', index=False)
-        print(f'統計結果已成功寫入 {output_file}。')
-    except FileNotFoundError:
-        print(f'找不到指定的檔案：{input_file}')
-    except Exception as e:
-        print(f'發生錯誤：{e}')
-
-# 使用範例
-calculate_percentage('output.txt', 'new_output.txt')
+import utils.return_offical_symbol as offi
+# import return_offical_symbol as offi
+dvd = pd.read_csv('/Volumes/ANTHONY/database/DVD_final_w_disease.txt', sep='\t')
+# dvd = pd.read_csv('./database/DVD_final_w_disease.txt', sep='\t')
+# dvd = pd.read_csv(
+#     '/Users/chun/Documents/GitHub/variant-search-engine/database/DVD_final_w_disease.txt', sep='\t')
 
 
+def get_result(gene_list):
+    gene_list = [offi.return_offical_symbol(i) for i in gene_list]
+    dvd['Gene Symbol'] = dvd['Gene Symbol'].astype('str')
+    dvd['Clinical Significance'] = dvd['Clinical Significance'].astype('str')
+    for i in gene_list:
+        select_gene = dvd[dvd['Gene Symbol'] == i]
+        if select_gene.shape[0] == 0:
+            continue
+        else:
+            p = int(
+                select_gene[select_gene['Clinical Significance'] == 'Pathogenic'].shape[0])
+            lp = int(select_gene[select_gene['Clinical Significance']
+                                 == 'Likely_pathogenic'].shape[0])
+            vus = int(select_gene[select_gene['Clinical Significance']
+                                  == 'Unknown_significance'].shape[0])
+            lb = int(
+                select_gene[select_gene['Clinical Significance'] == 'Likely_benign'].shape[0])
+            b = int(
+                select_gene[select_gene['Clinical Significance'] == 'Benign'].shape[0])
+
+            new_data = pd.DataFrame(columns=['Gene', 'Pathogenic', 'Likely pathogenic',
+                                             'Unknown Significance', 'Likely Benign', 'Benign'], index=['a1', 'a2'])
+            new_data['Gene']['a1'] = i
+            new_data['Pathogenic']['a1'] = p
+            new_data['Likely pathogenic']['a1'] = lp
+            new_data['Unknown Significance']['a1'] = vus
+            new_data['Likely Benign']['a1'] = lb
+            new_data['Benign']['a1'] = b
+            t = p+lp+vus+lb+b
+            new_data['Gene']['a2'] = ''
+            new_data['Pathogenic']['a2'] = str(round((p/t)*100, 1))+'%'
+            new_data['Likely pathogenic']['a2'] = str(round((lp/t)*100, 1))+'%'
+            new_data['Unknown Significance']['a2'] = str(
+                round((vus/t)*100, 1))+'%'
+            new_data['Likely Benign']['a2'] = str(round((lb/t)*100, 1))+'%'
+            new_data['Benign']['a2'] = str(round((b/t)*100, 1))+'%'
+            return new_data.to_dict(orient='records')
+    return {}
