@@ -12,17 +12,20 @@ $(document).ready(function () {
     let input = $("#user").val();
     let searchMode = $("input[name='search-mode']:checked").attr("id");
     if (input === "") {
-      alert("Input is empty.");
+      showAlertBox("Input is empty.");
+      $("#alert-btn").click(closeAlertBox);
     } else if (searchMode === "gene-mode") {
       if (input.split("-").length > 3) {
-        alert("Please enter a valid gene name.");
+        showAlertBox("Please enter a valid gene name.");
+        $("#alert-btn").click(closeAlertBox);
       } else {
         disableButton();
         geneMode(input);
       }
     } else if (searchMode === "variant-mode") {
       if (input.split("-").length == 1) {
-        alert("Please enter a valid variant format.");
+        showAlertBox("Please enter a valid variant format.");
+        $("#alert-btn").click(closeAlertBox);
       } else {
         disableButton();
         variantMode(input);
@@ -32,27 +35,16 @@ $(document).ready(function () {
 
   async function geneMode(input) {
     data = await eel.search_by_gene(input)();
-    console.log(data);
     if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0 && Object.keys(data[2]).length === 0) {
-      $("#alert-box").show();
-      let Box = $("#alert-content");
-      Box.empty();
-      Box.append(`
-      <h3 class="CAUTION">CAUTION</h3>
-      <div>No variants found.</div>
-    `);
+      showAlertBox("No genes found.");
+      $("#alert-btn").click(closeAlertBox);
       enableButton();
-      $("#alert-btn").click(closeAlert);
-
     } else {
       returnResult(data[1], "RefGene - Overview");
       returnResult(data[0], "RefGene - Transcript");
       returnResult(data[2], "DVD - Overview");
       returnResult(data[3], "Clinvar - Overview");
     }
-  }
-  function closeAlert(event) {
-    $("#alert-box").hide();      
   }
 
   async function variantMode(input) {
@@ -63,8 +55,8 @@ $(document).ready(function () {
       Object.keys(data[2]).length === 0 &&
       data[4] !== true
     ) {
-      alert("No variants found.");
-      $("#alert-box").show();
+      showAlertBox("No variants found.");
+      $("#alert-btn").click(closeAlertBox);
       enableButton();
     } else {
       showFigure(data[4]);
@@ -73,6 +65,19 @@ $(document).ready(function () {
       returnResult(data[0], "ClinVar");
       returnResult(data[1], "DVD");
     }
+  }
+
+  function showAlertBox(message) {
+    $("#alert-box").show();
+    let Box = $("#alert-content");
+    Box.empty();
+    Box.append(`
+    <h3 class="CAUTION">CAUTION</h3>
+    <div>${message}</div>
+  `);
+  }
+  function closeAlertBox() {
+    $("#alert-box").hide();
   }
 
   function showFigure(data) {
