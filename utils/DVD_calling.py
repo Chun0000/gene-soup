@@ -1,7 +1,8 @@
 import pandas as pd
 import utils.return_offical_symbol as offi
 # import return_offical_symbol as offi
-dvd = pd.read_csv('./database/DVD_final_w_disease.txt', sep='\t')
+dvd = pd.read_csv('/Volumes/ANTHONY/database/DVD_final_w_disease.txt', sep='\t')
+# dvd = pd.read_csv('./database/DVD_final_w_disease.txt', sep='\t')
 # dvd = pd.read_csv(
 #     '/Users/chun/Documents/GitHub/variant-search-engine/database/DVD_final_w_disease.txt', sep='\t')
 
