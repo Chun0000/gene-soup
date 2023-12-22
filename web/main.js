@@ -3,6 +3,7 @@
 $(document).ready(function () {
   $("#result").hide();
   $("#figure").hide();
+  $("#alert-box").hide();
   $("#submit-btn").click(checkMode);
 
   function checkMode(event) {
@@ -31,14 +32,27 @@ $(document).ready(function () {
 
   async function geneMode(input) {
     data = await eel.search_by_gene(input)();
+    console.log(data);
     if (Object.keys(data[0]).length === 0 && Object.keys(data[1]).length === 0 && Object.keys(data[2]).length === 0) {
-      alert("No variants found.");
+      $("#alert-box").show();
+      let Box = $("#alert-content");
+      Box.empty();
+      Box.append(`
+      <h3 class="CAUTION">CAUTION</h3>
+      <div>No variants found.</div>
+    `);
       enableButton();
+      $("#alert-btn").click(closeAlert);
+
     } else {
       returnResult(data[1], "RefGene - Overview");
       returnResult(data[0], "RefGene - Transcript");
       returnResult(data[2], "DVD - Overview");
+      returnResult(data[3], "Clinvar - Overview");
     }
+  }
+  function closeAlert(event) {
+    $("#alert-box").hide();      
   }
 
   async function variantMode(input) {
@@ -50,6 +64,7 @@ $(document).ready(function () {
       data[4] !== true
     ) {
       alert("No variants found.");
+      $("#alert-box").show();
       enableButton();
     } else {
       showFigure(data[4]);
