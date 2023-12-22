@@ -48,6 +48,7 @@ def plot(sorted_df, var):
         plt.text(label, d, f'{d:.2f}', ha='center',
                  va='bottom', fontsize=10, color='black')
     plt.savefig('./web/Image/popAF.png', dpi=300, bbox_inches='tight')
+    plt.close()
 
 
 def popAF_plot(var):
@@ -58,7 +59,7 @@ def popAF_plot(var):
     if not os.path.exists(tsvfile_path):
         print(f'{tsvfile_path} is not exist.')
         return False
-    sorted_df = tsv_process(tsvfile_path, var)
+    sorted_df = tsv_process(tsvfile_path, search_str)
     if sorted_df is False:
         return False
     else:

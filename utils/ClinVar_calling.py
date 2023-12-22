@@ -1,19 +1,10 @@
 import pandas as pd
-from utils.search import get_gene_symbol
 import utils.return_offical_symbol as offi
 
 clinvar = pd.read_csv(
     '/Volumes/ANTHONY/database/final_h_clinvar_single_37.txt', sep='\t')
 
-def return_refgene(var):
-    gene_list = get_gene_symbol(var)
-    print(gene_list)
-    if gene_list == []:
-        result = ({}, {})
-        return result
-    else:
-        result = get_result(gene_list)
-    return result
+
 
 def get_result(gene_list):
 	gene_list = [offi.return_offical_symbol(i) for i in gene_list]

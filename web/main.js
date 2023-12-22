@@ -9,6 +9,7 @@ $(document).ready(function () {
   function checkMode(event) {
     event.preventDefault(); // Prevent page refresh
     $("#result").empty();
+    $("#figure").hide();
     let input = $("#user").val();
     let searchMode = $("input[name='search-mode']:checked").attr("id");
     if (input === "") {
@@ -59,13 +60,14 @@ $(document).ready(function () {
       $("#alert-btn").click(closeAlertBox);
       enableButton();
     } else {
-      showFigure(data[4]);
       returnResult(data[3], "RefGene - Overview");
       returnResult(data[2], "RefGene - Transcript");
       returnResult(data[0], "ClinVar");
       returnResult(data[1], "DVD");
+      showFigure(data[4]);
+      }
     }
-  }
+  
 
   function showAlertBox(message) {
     $("#alert-box").show();
@@ -81,7 +83,12 @@ $(document).ready(function () {
   }
 
   function showFigure(data) {
+    let Figure = $("#figure-container")
+    Figure.empty();
+    let Image = $("<img></img>").attr("id", "figure");
     if (data === true) {
+      Image.attr("src", "./Image/popAF.png"); // Replace "path/to/figure.jpg" with the actual path to the figure image
+      Figure.append(Image);
       $("#figure").show();
     } else {
       $("#figure").hide();
