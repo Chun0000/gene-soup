@@ -5,7 +5,8 @@ import utils.return_offical_symbol as offi
 # refgenes = pd.read_csv(
 #     './database/refGene_transcript_transLen_final.txt', sep='\t')
 refgenes = pd.read_csv(
-    '/Volumes/ANTHONY/database/refGene_transcript_transLen_final.txt', sep='\t')
+    './database/refGene.txt', sep='\t')
+
 
 def return_refgene(var):
     gene_list = get_gene_symbol(var)

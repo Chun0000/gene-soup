@@ -2,7 +2,7 @@ import numpy as np
 
 # symbol_dict = np.load("/Users/chun/Documents/GitHub/variant-search-engine/database/gene_symbol_conversion_dict.npy",
 #                       allow_pickle=True).item()
-symbol_dict = np.load("/Volumes/ANTHONY/database/gene_symbol_conversion_dict.npy",
+symbol_dict = np.load("./database/gene_symbol_conversion_dict.npy",
                       allow_pickle=True).item()
 
 
