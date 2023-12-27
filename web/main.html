@@ -19,10 +19,27 @@
       <div class="box small-font">
         <h3>About this engine</h3>
         <ul>
-          <li>Search for variants by gene symbol or variant.</li>
-          <li>Search results are displayed in a table</li>
-          <li>Click on a row to view more details about the variant</li>
+          <li>This is a search engine that integrates multiple databases.</li>
+          <li>This allows users to access information from multiple databases at once.</li>
         </ul>
+        <h3>Search Modes</h3>
+        <ul>
+          <li>
+            <b>Gene Mode</b>: Includes gene position, length, and a summary of pathogenicity classification for variants
+            in the input gene.
+          </li>
+          <li>
+            <b>Variant Mode</b>: Gene position and length, variant overview, allele frequency in Taiwanese and other
+            populations.
+          </li>
+        </ul>
+        <h3>Data Sources</h3>
+        Human Genome Reference version: GRCh37/hg19
+        <a href="https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/genes/hg19.refGene.gtf.gz/">RefGene</a>
+        <a href="https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz">ClinVar</a>
+        <a href="https://deafnessvariationdatabase.org/download">Deafness Variation Database (DVD)</a>
+        <a href="https://annovar.openbioinformatics.org/en/latest/user-guide/download/">gnomAD: ANNOVAR gnomAD hg19</a>
+        <a href="https://taiwanview.twbiobank.org.tw/ ">Taiwan BioBank (Dr. Hsu Lab Generated Data)</a>
       </div>
       <div class="box small-font">
         <h3>Input Formats</h3>
@@ -49,8 +66,7 @@
       </div>
     </div>
     <div id="result"></div>
-    <div id="figure-container">
-    </div>
+    <div id="figure-container"></div>
     <div id="alert-box" class="box">
       <div id="alert-content"></div>
       <div class="button-container">
