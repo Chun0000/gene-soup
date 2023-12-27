@@ -7,28 +7,28 @@
 
 1. Clone the repository
 
-2. Create a new python environment in a terminal window
-
-```shell
-conda create --name var-search python=3.11
-```
-
-3. Activate the environment
-
-```shell
-conda activate var-search
-```
-
-4. Go to the project directory
+2. Go to the project directory
 
 ```shell
 cd <project-directory>
 ```
 
+3. Create a new python environment in a terminal window
+
+```shell
+python3 -m venv .venv
+```
+
+4. Activate the environment
+
+```shell
+source .venv/bin/activate
+```
+
 5. Install packages
 
 ```shell
-conda install --file requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### How to run this project?
