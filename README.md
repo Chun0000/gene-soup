@@ -1,4 +1,4 @@
-# variant-search-engine
+# Gene Soup
 
 - This is a search engine that integrates multiple databases.
 - This allows users to access information from multiple databases at once.
