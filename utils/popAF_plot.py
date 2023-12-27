@@ -23,7 +23,7 @@ def tsv_process(tsvfile_path, search_str):
 
     sorted_df = filtered_df.transpose().reset_index(inplace=False).iloc[1:].sort_values(
         by=[0], key=lambda x: x.astype(float), ascending=False).reset_index(drop=True).transpose()
-    #sorted_df = sorted_df.reset_index(drop=True)
+    # sorted_df = sorted_df.reset_index(drop=True)
     return sorted_df
 
 
@@ -55,7 +55,7 @@ def popAF_plot(var):
     search_str = var.replace('-', '_')
     filename = var.split('-')[0]
     # Change this path to your local path
-    tsvfile_path = f'/Volumes/ANTHONY/database/gnomAD_TWB_merge_chrom{filename}.tsv'
+    tsvfile_path = f'./database/gnomAD_TWB_merge_chrom{filename}.tsv'
     if not os.path.exists(tsvfile_path):
         print(f'{tsvfile_path} is not exist.')
         return False

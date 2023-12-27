@@ -1,9 +1,8 @@
 import pandas as pd
 
-#ClinVar = pd.read_csv('./database/final_h_clinvar_single_37.txt', sep='\t')
-# DVD = pd.read_csv('./database/DVD_final_w_disease.txt', sep='\t')
-ClinVar = pd.read_csv('/Volumes/ANTHONY/database/final_h_clinvar_single_37.txt', sep='\t')
-DVD = pd.read_csv('/Volumes/ANTHONY/database/DVD_final_w_disease.txt', sep='\t')
+ClinVar = pd.read_csv('./database/CLINVAR.txt', sep='\t')
+DVD = pd.read_csv('./database/DVD.txt', sep='\t')
+
 
 def get_clinvar_variant(var):
     chr = var.split('-')[0]
