@@ -2,8 +2,6 @@ import pandas as pd
 from utils.search import get_gene_symbol
 import utils.return_offical_symbol as offi
 
-# refgenes = pd.read_csv(
-#     './database/refGene_transcript_transLen_final.txt', sep='\t')
 refgenes = pd.read_csv(
     './database/refGene.txt', sep='\t')
 
