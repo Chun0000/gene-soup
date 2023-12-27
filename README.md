@@ -1,5 +1,8 @@
 # variant-search-engine
 
+- This is a search engine that integrates multiple databases.
+- This allows users to access information from multiple databases at once.
+
 ### How to start this project?
 
 1. Clone the repository
@@ -28,6 +31,24 @@ cd <project-directory>
 conda install --file requirements.txt
 ```
 
-### How to run frontend?
+### How to run this project?
 
-Run `app.py`.
+Run `python app.py` in terminal.
+
+### Examples
+
+> This repository only container certain example data
+
+##### Gene Mode
+
+1. SLC26A4
+2. GJB2
+3. ABCG2
+4. TP53
+5. APOE
+6. CYP2C9
+
+##### Variant Mode
+
+1. 13-20763612-C-T
+2. 7-107323898-A-G
