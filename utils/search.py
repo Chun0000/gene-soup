@@ -9,7 +9,7 @@ def get_clinvar_variant(var):
     pos = int(var.split('-')[1])
     ref = var.split('-')[2]
     alt = var.split('-')[3]
-    result = ClinVar[ClinVar['Chromosome'] == chr]
+    result = ClinVar[ClinVar['Chromosome'] == int(chr)]
     result = result[result['Position'] == pos]
     result = result[result['Reference Allele'] == ref]
     result = result[result['Alternate Allele'] == alt]
@@ -20,7 +20,7 @@ def get_clinvar_variant(var):
 
 
 def get_gene_symbol(var):
-    chr = var.split('-')[0]
+    chr = int(var.split('-')[0])
     pos = int(var.split('-')[1])
     result = ClinVar[ClinVar['Position'] == pos]
     result = result[result['Chromosome'] == chr]
